@@ -22,7 +22,7 @@ const entries = await contentfulClient.getEntries<CompanySize>({
 <BaseLayout pageTitle={pageTitle}>
     {entries.items.map((item) => (
         <section>
-          <h2>{item.fields.name}</h2>
+          <h3>{item.fields.name}</h3>
           <article set:html={documentToHtmlString(item.fields.introduction)}></article>
         </section>
       ))}
