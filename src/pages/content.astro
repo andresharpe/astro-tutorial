@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "Content Demo";
+
+import { contentfulClient } from "../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { EntryFieldTypes } from "contentful";
+
+interface CompanySize {
+  contentTypeId: "companySize",
+  fields: {
+    name: EntryFieldTypes.Text
+    introduction: EntryFieldTypes.RichText,
+  }
+}
+
+const entries = await contentfulClient.getEntries<CompanySize>({
+  content_type: "companySize",
+});
+
+---
+<BaseLayout pageTitle={pageTitle}>
+    {entries.items.map((item) => (
+        <section>
+          <h2>{item.fields.name}</h2>
+          <article set:html={documentToHtmlString(item.fields.introduction)}></article>
+        </section>
+      ))}
+</BaseLayout>
